@@ -15,8 +15,10 @@ RUN npm run bundle
 # Remove dev dependencies
 RUN npm prune --production
 
-# Default start
-CMD ["node","dist/index.js"]
-
 # Expose port
 EXPOSE 38450
+
+# Default to streamable-http transport
+ENV TRANSPORT=streamable-http
+
+CMD ["node","dist/index.js"]

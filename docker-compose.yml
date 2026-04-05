@@ -1,0 +1,10 @@
+services:
+  figma-mcp:
+    build:
+      context: ./mcp
+      dockerfile: docker/linux/Dockerfile
+    ports:
+      - "38450:38450"
+    environment:
+      - TRANSPORT=streamable-http
+    restart: unless-stopped

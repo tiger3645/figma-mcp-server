@@ -3,11 +3,10 @@ import { ToolResult } from "../tool-result";
 import type { GetPagesParams } from "@shared/types";
 
 export async function getPages(args: GetPagesParams): Promise<ToolResult> {
-    await figma.loadAllPagesAsync();
-    const pages = figma.root.findAllWithCriteria({
-        types: ["PAGE"],
-    });
-    const serializedPages = pages.map((page) => serializePage(page as PageNode));
+    // Use root.children directly — avoids loading all pages which is slow on large files.
+    // Children of non-current pages may be unloaded; serializePage handles that gracefully.
+    const pages = figma.root.children as PageNode[];
+    const serializedPages = pages.map((page) => serializePage(page));
     return {
         isError: false,
         content: serializedPages,

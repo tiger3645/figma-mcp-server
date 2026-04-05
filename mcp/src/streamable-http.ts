@@ -157,6 +157,11 @@ export async function startStreamableHTTP() {
     // Handle DELETE requests for session termination
     app.delete('/mcp', handleSessionRequest);
 
+    // Disable timeouts to allow large Figma files to process
+    httpServer.timeout = 0;
+    httpServer.requestTimeout = 0;
+    httpServer.keepAliveTimeout = 0;
+
     // Start the HTTP server (Socket.IO will use this)
     httpServer.listen(PORT, () => {
         console.log(`Server listening on http://localhost:${PORT}`);
